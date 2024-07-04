@@ -3,7 +3,7 @@
  */
 package bitcamp.project2;
 
-import bitcamp.project2.Prompt.Prompt;
+import bitcamp.project2.util.Prompt;
 import bitcamp.project2.command.TodayTodoCommand;
 import bitcamp.project2.command.TodoCommand;
 import bitcamp.project2.vo.TodoList;
@@ -23,6 +23,7 @@ public class App {
     }
 
     public void run() {
+        todoList.testData();
         printMenu();
         while (true) {
             String choice = Prompt.input("메뉴 >");

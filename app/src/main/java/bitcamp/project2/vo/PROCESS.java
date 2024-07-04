@@ -1,4 +1,4 @@
-package bitcamp.project2;
+package bitcamp.project2.vo;
 
 public class PROCESS {
     public static final int DEFAULT = 0;

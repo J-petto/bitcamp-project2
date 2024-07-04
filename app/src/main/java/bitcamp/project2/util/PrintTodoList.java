@@ -1,6 +1,6 @@
-package bitcamp.project2.Prompt;
+package bitcamp.project2.util;
 
-import bitcamp.project2.PROCESS;
+import bitcamp.project2.vo.PROCESS;
 import bitcamp.project2.vo.Todo;
 
 import java.time.LocalDate;
@@ -15,6 +15,16 @@ public class PrintTodoList {
         switch (process) {
             case PROCESS.TODAY:
                 System.out.printf("=====================[%s]=====================\n", LocalDate.now());
+                break;
+            default:
+                System.out.println(line2);
+        }
+    }
+
+    private void printFooter(int process){
+        switch (process) {
+            case PROCESS.TODAY:
+                System.out.println("==============================================\n");
                 break;
             default:
                 System.out.println(line2);
@@ -42,27 +52,37 @@ public class PrintTodoList {
             printSort(todayTodo.getTitle());
         }
 
-        System.out.println(line2);
+        printFooter(process);
     }
 
     // 한글 영어 구분
     private void printSort(String title) {
         final int TITLE_MAX = 20;
+
+        int kor = 0;
         int eng = 0;
+
         System.out.print(title);
+
         for (char titleChar : title.toCharArray()) {
             if (isKorean(titleChar)) {
+                kor++;
                 continue;
-            } else {
-                eng++;
             }
+            eng++;
         }
-        for (int i = 0; i < TITLE_MAX - title.length(); i++) {
+
+        int resultSpace = TITLE_MAX - kor - (eng / 2) - (eng % 2);
+        for (int i = 0; i <resultSpace ; i++) {
             System.out.print("  ");
         }
-        for (int i = 0; i < eng; i++) {
-            System.out.print(" ");
+
+        if(resultSpace > 0){
+            if(eng % 2 == 1){
+                System.out.print(" ");
+            }
         }
+
         System.out.print("|");
         System.out.println();
     }

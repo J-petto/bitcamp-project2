@@ -1,8 +1,8 @@
 package bitcamp.project2.command;
 
-import bitcamp.project2.PROCESS;
-import bitcamp.project2.Prompt.PrintTodoList;
-import bitcamp.project2.Prompt.Prompt;
+import bitcamp.project2.vo.PROCESS;
+import bitcamp.project2.util.PrintTodoList;
+import bitcamp.project2.util.Prompt;
 import bitcamp.project2.vo.Todo;
 import bitcamp.project2.vo.TodoList;
 

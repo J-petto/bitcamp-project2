@@ -1,4 +1,4 @@
-package bitcamp.project2.Prompt;
+package bitcamp.project2.util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

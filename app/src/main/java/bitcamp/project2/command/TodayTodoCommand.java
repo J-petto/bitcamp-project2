@@ -1,8 +1,8 @@
 package bitcamp.project2.command;
 
-import bitcamp.project2.PROCESS;
-import bitcamp.project2.Prompt.PrintTodoList;
-import bitcamp.project2.Prompt.Prompt;
+import bitcamp.project2.vo.PROCESS;
+import bitcamp.project2.util.PrintTodoList;
+import bitcamp.project2.util.Prompt;
 import bitcamp.project2.vo.Todo;
 import bitcamp.project2.vo.TodoList;
 
@@ -10,18 +10,18 @@ import java.util.ArrayList;
 
 public class TodayTodoCommand {
     private final TodoList todoList;
-    private final ArrayList<Todo> todoAllList;
+    private final ArrayList<Todo> todos;
     private ArrayList<Todo> todayList;
+
+    public TodayTodoCommand(TodoList todoList) {
+        this.todoList = todoList;
+        System.out.println(todoList);
+        todos = todoList.getTodoList();
+    }
 
     private final String[] menus = {"오늘 할 일 보기", "할 일 수정", "할 일 삭제", "할 일 완료"};
 
     PrintTodoList printTodoList = new PrintTodoList();
-
-    public TodayTodoCommand(TodoList todoList) {
-        this.todoList = todoList;
-        todoAllList = todoList.getTodoList();
-        todayList = todoList.setTodayTodoList();
-    }
 
     // 오늘 할 일 메뉴 프린트
     private void printTodayTodoMenus() {
@@ -34,6 +34,8 @@ public class TodayTodoCommand {
 
     // 오늘 할 일 시작 부분
     public void executeToday() {
+        todayList = todoList.setTodayTodoList();
+
         printTodayTodoMenus();
 
         int number;
@@ -46,6 +48,7 @@ public class TodayTodoCommand {
             } else if (input.equalsIgnoreCase("menu")) {
                 printTodayTodoMenus();
             } else if (input.equals("1")) {
+                todayList = todoList.setTodayTodoList();
                 printTodoList.printTodoList(PROCESS.DEFAULT, todayList);
             }
             try {
@@ -104,6 +107,7 @@ public class TodayTodoCommand {
     private void todayListDelete() {
         String input;
         int number;
+
         while (true) {
             input = Prompt.input("삭제할 할 일 번호 입력 >");
             try {
@@ -119,9 +123,9 @@ public class TodayTodoCommand {
                     break;
                 }
 
-                for (int i = 0; i < todayList.size(); i++) {
-                    if (todoAllList.get(i).equals(deleteTodo)) {
-                        todoAllList.remove(i);
+                for (int i = 0; i < todos.size(); i++) {
+                    if (todos.get(i).equals(deleteTodo)) {
+                        todos.remove(i);
                     }
                 }
                 todayList = todoList.setTodayTodoList();

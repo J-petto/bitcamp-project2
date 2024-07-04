@@ -14,10 +14,6 @@ public class TodoList {
         todoList.add(new Todo("테스트", LocalDate.parse("2024-07-02"), LocalDate.parse("2024-07-02")));
     }
 
-    public TodoList(){
-        testData();
-    }
-
     // 할 일 리스트 중 오늘 할 일 분류
     public ArrayList<Todo> setTodayTodoList() {
         ArrayList<Todo> todayList = new ArrayList<>();
@@ -25,7 +21,7 @@ public class TodoList {
         LocalDate today = LocalDate.now();
 
         for (Todo todo : todoList) {
-            if (todo.getStartDate().equals(today) || test(todo)) {
+            if (todo.getStartDate().equals(today) || ingTodo(todo)) {
                 todayList.add(todo);
             }
         }
@@ -46,7 +42,7 @@ public class TodoList {
         return todoList;
     }
 
-    public boolean test(Todo todo){
+    public boolean ingTodo(Todo todo){
         LocalDate today = LocalDate.now();
         return today.isAfter(todo.getStartDate()) && today.isBefore(todo.getEndDate());
     }
