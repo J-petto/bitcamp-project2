@@ -9,9 +9,9 @@ import bitcamp.project2.vo.TodoList;
 import java.util.ArrayList;
 
 public class TodayTodoCommand {
-    private TodoList todoList;
-    private final ArrayList<Todo> todoAllList = todoList.getTodoList();
-    private ArrayList<Todo> todayList = todoList.setTodayTodoList();
+    private final TodoList todoList;
+    private final ArrayList<Todo> todoAllList;
+    private ArrayList<Todo> todayList;
 
     private final String[] menus = {"오늘 할 일 보기", "할 일 수정", "할 일 삭제", "할 일 완료"};
 
@@ -19,6 +19,8 @@ public class TodayTodoCommand {
 
     public TodayTodoCommand(TodoList todoList) {
         this.todoList = todoList;
+        todoAllList = todoList.getTodoList();
+        todayList = todoList.setTodayTodoList();
     }
 
     // 오늘 할 일 메뉴 프린트

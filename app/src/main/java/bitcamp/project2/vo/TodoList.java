@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TodoList {
-    private final ArrayList<Todo> todoList = new ArrayList<>();
+    private static final ArrayList<Todo> todoList = new ArrayList<>();
 
     public void testData() {
         todoList.add(new Todo("오늘", LocalDate.parse("2024-07-03"), LocalDate.parse("2024-07-03")));

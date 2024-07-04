@@ -8,19 +8,23 @@ import bitcamp.project2.command.TodayTodoCommand;
 import bitcamp.project2.command.TodoCommand;
 import bitcamp.project2.vo.TodoList;
 
+
 public class App {
     TodoList todoList = new TodoList();
     TodoCommand todoCommand = new TodoCommand(todoList);
     TodayTodoCommand todayTodoCommand = new TodayTodoCommand(todoList);
+
     String[] menus = {"해야할 일 추가", "목록 조회", "오늘 해야 할 일", "수정","삭제", "종료"};
+
     public void printMenu() {
         for (int i = 0; i < menus.length; i++) {
             System.out.printf("%d. %s\n", (i + 1), menus[i]);
         }
     }
+
     public void run() {
+        printMenu();
         while (true) {
-            printMenu();
             String choice = Prompt.input("메뉴 >");
             try {
                 int menuNo = Integer.parseInt(choice);
