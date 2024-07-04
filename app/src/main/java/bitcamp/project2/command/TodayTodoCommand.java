@@ -15,13 +15,12 @@ public class TodayTodoCommand {
 
     public TodayTodoCommand(TodoList todoList) {
         this.todoList = todoList;
-        System.out.println(todoList);
         todos = todoList.getTodoList();
     }
 
     private final String[] menus = {"오늘 할 일 보기", "할 일 수정", "할 일 삭제", "할 일 완료"};
 
-    PrintTodoList printTodoList = new PrintTodoList();
+    PrintTodoList printer = new PrintTodoList();
 
     // 오늘 할 일 메뉴 프린트
     private void printTodayTodoMenus() {
@@ -30,11 +29,19 @@ public class TodayTodoCommand {
         for (String menu : menus) {
             System.out.printf("%d. %s\n", menuNo++, menu);
         }
+        System.out.println("9. 이전");
     }
 
     // 오늘 할 일 시작 부분
     public void executeToday() {
         todayList = todoList.setTodayTodoList();
+
+        if(todayList.isEmpty()){
+            System.out.println("오늘 할 일이 없습니다.");
+            return;
+        }
+
+        printer.printTodoList(PROCESS.TODAY_LIST, todayList);
 
         printTodayTodoMenus();
 
@@ -42,34 +49,37 @@ public class TodayTodoCommand {
         String input;
 
         while (true) {
-            input = Prompt.input("메뉴 번호 입력 >");
+            input = Prompt.input("오늘 할 일 >");
+
             if (input.equals("9")) {
                 break;
             } else if (input.equalsIgnoreCase("menu")) {
                 printTodayTodoMenus();
             } else if (input.equals("1")) {
                 todayList = todoList.setTodayTodoList();
-                printTodoList.printTodoList(PROCESS.DEFAULT, todayList);
+                printer.printTodoList(PROCESS.TODAY_LIST, todayList);
             }
             try {
                 number = Integer.parseInt(input);
-                if (isAvailable(number)) {
-                    System.out.println("올바른 메뉴 번호를 입력해주세요.");
-                } else {
-                    String menuTitle = menuNo(number);
-                    switch (menuTitle) {
-                        case "할 일 수정":
-                            todayListUpdate();
-                            break;
-                        case "할 일 삭제":
-                            todayListDelete();
-                            break;
-                        case "할 일 완료":
-                            todayComplete();
-                            break;
-                    }
+                if(isAvailable(number)){
+                 System.out.println("없는 메뉴입니다. 재입력해주세요.");
+                 break;
                 }
-            } catch (NumberFormatException e) {
+                String menuTitle = menuNo(number);
+                switch (menuTitle) {
+                    case "할 일 수정":
+                        todayListUpdate();
+                        break;
+                    case "할 일 삭제":
+                        todayListDelete();
+                        break;
+                    case "할 일 완료":
+                        todayComplete();
+                        break;
+                    default:
+                }
+            } catch (
+                    NumberFormatException e) {
                 System.out.println("메뉴는 숫자로 입력해주세요.");
             }
         }
@@ -79,6 +89,9 @@ public class TodayTodoCommand {
     private void todayListUpdate() {
         String input;
         int number;
+
+        printer.printTodoList(PROCESS.TODAY_UPDATE, todayList);
+
         while (true) {
             input = Prompt.input("수정 할 일 번호 >");
             try {
@@ -92,8 +105,9 @@ public class TodayTodoCommand {
                     System.out.println("없는 할 일입니다.");
                     break;
                 }
-                updateTodo.setStartDate(Prompt.inputDate("수정할 날짜 입력(ex. 0000-00-00) >"));
-                updateTodo.setTitle(Prompt.input("수정할 타이틀 입력 >"));
+                updateTodo.setTitle(Prompt.input("수정할 할 일 내용 입력 >"));
+                updateTodo.setStartDate(Prompt.inputDate("수정할 시작일을 입력하세요(2024-00-00) >"));
+                updateTodo.setEndDate(Prompt.inputDate("수정할 종료일을 입력하세요(2024-00-00) >"));
                 isComplete(updateTodo);
                 todayList = todoList.setTodayTodoList();
                 break;
@@ -108,14 +122,12 @@ public class TodayTodoCommand {
         String input;
         int number;
 
+        printer.printTodoList(PROCESS.TODAY_DELETE, todayList);
+
         while (true) {
             input = Prompt.input("삭제할 할 일 번호 입력 >");
             try {
                 number = Integer.parseInt(input);
-                if (number < 0) {
-                    System.out.println("없는 번호입니다.");
-                    break;
-                }
 
                 Todo deleteTodo = todoList.nullTodo(number, todayList);
                 if (deleteTodo == null) {
@@ -129,7 +141,7 @@ public class TodayTodoCommand {
                     }
                 }
                 todayList = todoList.setTodayTodoList();
-                System.out.println("삭제했습니다");
+                System.out.println("할 일을 삭제했습니다");
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("번호로 입력해주세요.");
@@ -141,6 +153,9 @@ public class TodayTodoCommand {
     private void todayComplete() {
         String input;
         int number;
+
+        printer.printTodoList(PROCESS.TODAY_DELETE, todayList);
+
         while (true) {
             input = Prompt.input("완료한 할 일 번호를 입력해주세요.");
             try {
@@ -178,11 +193,13 @@ public class TodayTodoCommand {
         }
     }
 
-    private boolean isAvailable(int number){
-        return number < 0 || number > menus.length;
+    // 선택한 메뉴가 유효한 메뉴인지 검증
+    private boolean isAvailable(int number) {
+        return number <= 0 || number > menus.length;
     }
 
-    private String menuNo(int number){
+    // 메뉴 이름 가져오기
+    private String menuNo(int number) {
         return menus[number - 1];
     }
 }

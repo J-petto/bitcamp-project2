@@ -20,31 +20,32 @@ public class TodoCommand {
     }
 
     public void toDo() {
-        String title = Prompt.input("할 일을 입력하세요: ");
-        LocalDate startDate = Prompt.inputDate("날짜를 입력하세요(yyyy-MM-dd 또는 yyyyMMdd): ");
-        LocalDate endDate = Prompt.inputDate("날짜를 입력하세요(yyyy-MM-dd 또는 yyyyMMdd): ");
+        String title = Prompt.input("할 일을 입력하세요:");
+        LocalDate startDate = Prompt.inputDate("시작일을 입력하세요(0000-00-00):");
+        LocalDate endDate = Prompt.inputDate("종료일을 입력하세요(0000-00-00):");
 
         todos.add(new Todo(title, startDate, endDate));
         System.out.println("할 일을 추가했습니다.");
     }
 
     public void viewTasks() {
-        if (todos.isEmpty()) {
+        if(todos.isEmpty()){
             System.out.println("등록된 할 일이 없습니다.");
             return;
         }
-        printer.printTodoList(PROCESS.DEFAULT, todos);
+        printer.printTodoList(PROCESS.MAIN_LIST, todos);
     }
 
     public void deleteTask() {
-        if (todos.isEmpty()) {
+        if(todos.isEmpty()){
             System.out.println("삭제할 할 일이 없습니다.");
             return;
         }
-        printer.printTodoList(PROCESS.TODAY, todos);// 삭제에서는 번호와 함께 출력
+
+        printer.printTodoList(PROCESS.MAIN_DELETE, todos);// 삭제에서는 번호와 함께 출력
 
         while (true) {
-            String number = Prompt.input("삭제할 할 일 번호를 입력하세요: ");
+            String number = Prompt.input("삭제할 할 일 번호를 입력 >");
             try {
                 int menuNo = Integer.parseInt(number);
                 Todo deleteTodo = todoList.nullTodo(menuNo, todos);
@@ -57,7 +58,7 @@ public class TodoCommand {
                         todos.remove(i);
                     }
                 }
-                System.out.println("할 일이 삭제되었습니다.");
+                System.out.println("할 일을 삭제했습니다.");
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("번호로 입력해주세요.");
@@ -66,49 +67,46 @@ public class TodoCommand {
     }
 
     public void updateTask() {
+        if(todos.isEmpty()){
+            System.out.println("수정할 할 일이 없습니다.");
+            return;
+        }
+
+        printer.printTodoList(PROCESS.MAIN_UPDATE, todos);
+
         while (true) {
-            String update = Prompt.input("수정할 할 일 번호를 입력하세요:");
+            String update = Prompt.input("수정 할 일 번호 >");
             try {
                 int update2 = Integer.parseInt(update);
-                if (todos.isEmpty()) {
-                    System.out.println("수정할 할 일이 없습니다.");
-                    break;
-                }
-                printer.printTodoList(PROCESS.DEFAULT, todos);
                 Todo updateTodo = todoList.nullTodo(update2, todos);
 
                 if (updateTodo == null) {
-                    System.out.println("할 일이 없습니다.");
+                    System.out.println("없는 할 일입니다.");
                     break;
                 }
 
-                updateTodo.setTitle(Prompt.input("새 할 일을 입력하세요: "));
-                updateTodo.setStartDate(Prompt.inputDate("새 날짜를 입력하세요(yyyy-MM-dd 또는 yyyyMMdd):"));
-                updateTodo.setEndDate(Prompt.inputDate("새 날짜를 입력하세요(yyyy-MM-dd 또는 yyyyMMdd):"));
+                updateTodo.setTitle(Prompt.input("수정할 할 일 내용 입력 >"));
+                updateTodo.setStartDate(Prompt.inputDate("수정할 시작일을 입력하세요(2024-00-00) >"));
+                updateTodo.setEndDate(Prompt.inputDate("수정할 종료일을 입력하세요(2024-00-00) >"));
 
                 while (true) {
-                    String newCompleted = Prompt.input("완료했습니까?(y/n): ");
-
-                    if (newCompleted.equals("y")) {
+                    String newCompleted = Prompt.input("완료했습니까?(y/n):");
+                    if (newCompleted.equalsIgnoreCase("y")) {
                         updateTodo.setComplete(true);
                         break;
-                    } else if (newCompleted.equals("n")) {
+                    } else if (newCompleted.equalsIgnoreCase("n")) {
                         updateTodo.setComplete(false);
                         break;
                     } else {
                         System.out.println("y나 n을 입력해주세요.");
                     }
                 }
-                System.out.println("할 일이 수정되었습니다.");
+                System.out.println("할 일을 수정했습니다.");
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("숫자로 입력해주세요.");
             }
         }
     }
-
-//    public TodoList getTodoList() {
-//        return todoList;
-//    }
 }
 

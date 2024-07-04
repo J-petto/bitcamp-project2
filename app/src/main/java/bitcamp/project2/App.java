@@ -14,12 +14,14 @@ public class App {
     TodoCommand todoCommand = new TodoCommand(todoList);
     TodayTodoCommand todayTodoCommand = new TodayTodoCommand(todoList);
 
-    String[] menus = {"해야할 일 추가", "목록 조회", "오늘 해야 할 일", "수정","삭제", "종료"};
+    String[] menus = {"오늘의 Todo", "Todo 추가", "모든 Todo 목록", "Todo 수정", "Todo 삭제", "종료"};
 
     public void printMenu() {
+        System.out.println("==========[TodoList]==========");
         for (int i = 0; i < menus.length; i++) {
             System.out.printf("%d. %s\n", (i + 1), menus[i]);
         }
+        System.out.println("==============================");
     }
 
     public void run() {
@@ -29,30 +31,34 @@ public class App {
             String choice = Prompt.input("메뉴 >");
             try {
                 int menuNo = Integer.parseInt(choice);
-                switch (menuNo) {
-                    case 1:
+                if (isAvailable(menuNo)) {
+                    System.out.println("없는 메뉴입니다. 재입력해주세요.");
+                    continue;
+                }
+                String menuTitle = menus[menuNo - 1];
+                switch (menuTitle) {
+                    case "Todo 추가":
                         todoCommand.toDo();
                         break;
-                    case 2:
+                    case "모든 Todo 목록":
                         todoCommand.viewTasks(); // 조회에서는 번호 없이 출력
                         break;
-                    case 3:
+                    case "오늘의 Todo":
                         todayTodoCommand.executeToday();
-
                         break;
-                    case 4:
+                    case "Todo 수정":
                         todoCommand.updateTask();
                         break;
-                    case 5:
+                    case "Todo 삭제":
                         todoCommand.deleteTask();
                         break;
-                    case 0:
+                    case "종료":
                         System.out.println("종료");
                         return;
                     default:
                         System.out.println("잘못된 선택입니다. 다시 시도해주세요.");
                 }
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("올바른 숫자를 입력해주세요.");
             }
 
@@ -64,5 +70,7 @@ public class App {
         app.run();
     }
 
-
+    private boolean isAvailable(int number) {
+        return number < 1 || number > menus.length;
+    }
 }

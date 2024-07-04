@@ -1,55 +1,84 @@
 package bitcamp.project2.util;
 
-import bitcamp.project2.vo.PROCESS;
 import bitcamp.project2.vo.Todo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PrintTodoList {
-    private final String line2 = "======================================================";
+    private final String noNumberDefaultLine = "==========================================================================";
+    private final String useNumberDefaultLine = "===============================================================================";
 
-    private void createLine(){}
-
+    // 헤더 생성
     private void printHeader(int process) {
-        switch (process) {
-            case PROCESS.TODAY:
-                System.out.printf("=====================[%s]=====================\n", LocalDate.now());
-                break;
-            default:
-                System.out.println(line2);
+        if(!isDate(process)){
+           if(isNo(process)){
+               System.out.printf("=====================[%s]=====================\n", LocalDate.now());
+           }else {
+               System.out.printf("==================[%s]==================\n", LocalDate.now());
+           }
+        }else {
+            if(isNo(process)){
+                System.out.println(useNumberDefaultLine);
+            }else {
+                System.out.println(noNumberDefaultLine);
+            }
         }
     }
 
+    //푸터 생성
     private void printFooter(int process){
-        switch (process) {
-            case PROCESS.TODAY:
-                System.out.println("==============================================\n");
-                break;
-            default:
-                System.out.println(line2);
+        if(!isDate(process)){
+            if(isNo(process)){
+                System.out.println("======================================================");
+            }else {
+                System.out.println("================================================");
+            }
+        }else {
+            if(isNo(process)){
+                System.out.println(useNumberDefaultLine);
+            }else {
+                System.out.println(noNumberDefaultLine);
+            }
         }
+    }
+
+    // 넘버 노출 필요?
+    private boolean isNo(int process){
+        return process % 2 > 0;
+    }
+
+    // 데이트 노출 필요? and today 메뉴인가(true = todayO)?
+    private boolean isDate(int process){
+        return process / 10 == 0;
     }
 
     public void printTodoList(int process, ArrayList<Todo> todoList) {
-        String ansiRed = "\u001B[31m";
+        String ansiGreen = "\u001B[32m";
         String ansiEnd = "\u001B[0m";
 
         printHeader(process);
 
-        if (todoList.isEmpty()) {
-            System.out.println("할 일이 없습니다.");
-            System.out.println("추가해주세요.");
-            return;
-        }
-
-        for (Todo todayTodo : todoList) {
+        for (Todo todo : todoList) {
             System.out.print("|");
-            if(process == PROCESS.DEFAULT){
-                System.out.printf("%3d |", todayTodo.getNo());
+
+            if(isNo(process)){
+                System.out.printf("%3d |", todo.getNo());
             }
-            System.out.printf("%s", todayTodo.isComplete() ? String.format(" %s⬤%s | ", ansiRed, ansiEnd) : " ⬤ | ");
-            printSort(todayTodo.getTitle());
+
+            if(isDate(process)){
+                LocalDate startDate = todo.getStartDate();
+                LocalDate endDate = todo.getEndDate();
+
+                if(startDate.equals(endDate)){
+                    System.out.printf("       %s        |", startDate);
+                }else {
+                    System.out.printf(" %s ~ %s |", startDate, endDate);
+                }
+            }
+
+            System.out.printf("%s", todo.isComplete() ? String.format(" %s⬤%s | ", ansiGreen, ansiEnd) : " ⬤ | ");
+            printSort(todo.getTitle());
         }
 
         printFooter(process);
