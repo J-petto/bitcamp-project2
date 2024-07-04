@@ -90,7 +90,7 @@ public class TodoCommand {
                 updateTodo.setEndDate(Prompt.inputDate("수정할 종료일을 입력하세요(2024-00-00) >"));
 
                 while (true) {
-                    String newCompleted = Prompt.input("완료했습니까?(y/n):");
+                    String newCompleted = Prompt.input("완료했습니까?(y/n) >");
                     if (newCompleted.equalsIgnoreCase("y")) {
                         updateTodo.setComplete(true);
                         break;

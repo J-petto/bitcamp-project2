@@ -180,7 +180,7 @@ public class TodayTodoCommand {
     // 완료 했는지 여부 확인
     private void isComplete(Todo todo) {
         while (true) {
-            String complete = Prompt.input("완료 여부를 입력해주세요.");
+            String complete = Prompt.input("완료했습니까?(y/n) >");
             if (complete.equalsIgnoreCase("y")) {
                 todo.setComplete(true);
                 break;
