@@ -21,8 +21,15 @@ public class TodoCommand {
 
     public void toDo() {
         String title = Prompt.input("할 일을 입력하세요:");
-        LocalDate startDate = Prompt.inputDate("시작일을 입력하세요(0000-00-00):");
-        LocalDate endDate = Prompt.inputDate("종료일을 입력하세요(0000-00-00):");
+        LocalDate startDate = Prompt.inputDate("시작일을 입력하세요(yyyymmdd) >");
+        LocalDate endDate;
+        while (true){
+            endDate = Prompt.inputDate("종료일을 입력하세요(yyyymmdd) >");
+            if(endDate.isAfter(startDate) || endDate.equals(startDate)){
+                break;
+            }
+            System.out.println("시작일 보다 이후로 입력해주세요.");
+        }
 
         todos.add(new Todo(title, startDate, endDate));
         System.out.println("할 일을 추가했습니다.");
@@ -84,10 +91,17 @@ public class TodoCommand {
                     System.out.println("없는 할 일입니다.");
                     break;
                 }
-
                 updateTodo.setTitle(Prompt.input("수정할 할 일 내용 입력 >"));
-                updateTodo.setStartDate(Prompt.inputDate("수정할 시작일을 입력하세요(2024-00-00) >"));
-                updateTodo.setEndDate(Prompt.inputDate("수정할 종료일을 입력하세요(2024-00-00) >"));
+                LocalDate startDate = Prompt.inputDate("수정할 시작일을 입력하세요(yyyymmdd) >");
+                updateTodo.setStartDate(startDate);
+                while (true){
+                    LocalDate endDate = Prompt.inputDate("수정할 종료일을 입력하세요(yyyymmdd) >");
+                    if(endDate.isAfter(startDate) || endDate.equals(startDate)){
+                        updateTodo.setEndDate(endDate);
+                        break;
+                    }
+                    System.out.println("시작일 보다 이후로 입력해주세요.");
+                }
 
                 while (true) {
                     String newCompleted = Prompt.input("완료했습니까?(y/n) >");

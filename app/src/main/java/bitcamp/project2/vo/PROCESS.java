@@ -1,7 +1,7 @@
 package bitcamp.project2.vo;
 
 public class PROCESS {
-    // 날짜 노출 = process % 10 > 0;
+    // 날짜 노출 = process / 10 == 0;
     // 번호 노출 = process % 2 > 0;
 
     // 모두 노출

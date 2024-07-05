@@ -29,6 +29,10 @@ public class App {
         printMenu();
         while (true) {
             String choice = Prompt.input("메뉴 >");
+            if(choice.equals("menu")){
+                printMenu();
+                continue;
+            }
             try {
                 int menuNo = Integer.parseInt(choice);
                 if (isAvailable(menuNo)) {

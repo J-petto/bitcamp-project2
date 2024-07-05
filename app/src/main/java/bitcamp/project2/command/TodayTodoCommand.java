@@ -6,6 +6,7 @@ import bitcamp.project2.util.Prompt;
 import bitcamp.project2.vo.Todo;
 import bitcamp.project2.vo.TodoList;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TodayTodoCommand {
@@ -57,6 +58,10 @@ public class TodayTodoCommand {
                 printTodayTodoMenus();
             } else if (input.equals("1")) {
                 todayList = todoList.setTodayTodoList();
+                if(todayList.isEmpty()){
+                    System.out.println("오늘 할 일이 없습니다.");
+                    return;
+                }
                 printer.printTodoList(PROCESS.TODAY_LIST, todayList);
             }
             try {
@@ -106,8 +111,16 @@ public class TodayTodoCommand {
                     break;
                 }
                 updateTodo.setTitle(Prompt.input("수정할 할 일 내용 입력 >"));
-                updateTodo.setStartDate(Prompt.inputDate("수정할 시작일을 입력하세요(2024-00-00) >"));
-                updateTodo.setEndDate(Prompt.inputDate("수정할 종료일을 입력하세요(2024-00-00) >"));
+                LocalDate startDate = Prompt.inputDate("수정할 시작일을 입력하세요(yyyymmdd) >");
+                updateTodo.setStartDate(startDate);
+                while (true){
+                    LocalDate endDate = Prompt.inputDate("수정할 종료일을 입력하세요(yyyymmdd) >");
+                    if(endDate.isAfter(startDate) || endDate.equals(startDate)){
+                        updateTodo.setEndDate(endDate);
+                        break;
+                    }
+                    System.out.println("시작일 보다 이후로 입력해주세요.");
+                }
                 isComplete(updateTodo);
                 todayList = todoList.setTodayTodoList();
                 break;
@@ -154,7 +167,7 @@ public class TodayTodoCommand {
         String input;
         int number;
 
-        printer.printTodoList(PROCESS.TODAY_DELETE, todayList);
+        printer.printTodoList(PROCESS.TODAY_UPDATE, todayList);
 
         while (true) {
             input = Prompt.input("완료한 할 일 번호를 입력해주세요.");
