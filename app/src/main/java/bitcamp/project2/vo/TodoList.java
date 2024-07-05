@@ -7,11 +7,11 @@ public class TodoList {
     private static final ArrayList<Todo> todoList = new ArrayList<>();
 
     public void testData() {
-        todoList.add(new Todo("오늘", LocalDate.parse("2024-07-03"), LocalDate.parse("2024-07-03")));
-        todoList.add(new Todo("어제", LocalDate.parse("2024-07-02"), LocalDate.parse("2024-07-02")));
-        todoList.add(new Todo("ing", LocalDate.parse("2024-07-01"), LocalDate.parse("2024-07-11")));
-        todoList.add(new Todo("내일", LocalDate.parse("2024-07-04"), LocalDate.parse("2024-07-11")));
-        todoList.add(new Todo("테스트", LocalDate.parse("2024-07-02"), LocalDate.parse("2024-07-02")));
+        todoList.add(new Todo("오늘", LocalDate.parse("2024-07-05"), LocalDate.parse("2024-07-05")));
+        todoList.add(new Todo("어제", LocalDate.parse("2024-07-04"), LocalDate.parse("2024-07-04")));
+        todoList.add(new Todo("ing", LocalDate.parse("2024-07-01"), LocalDate.parse("2024-07-07")));
+        todoList.add(new Todo("내일", LocalDate.parse("2024-07-06"), LocalDate.parse("2024-07-06")));
+        todoList.add(new Todo("테스트", LocalDate.parse("2024-07-02"), LocalDate.parse("2024-07-15")));
     }
 
     // 할 일 리스트 중 오늘 할 일 분류

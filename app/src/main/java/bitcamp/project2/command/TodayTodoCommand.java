@@ -19,7 +19,7 @@ public class TodayTodoCommand {
         todos = todoList.getTodoList();
     }
 
-    private final String[] menus = {"오늘 할 일 보기", "할 일 수정", "할 일 삭제", "할 일 완료"};
+    private final String[] menus = {"오늘 할 일 보기", "할 일 수정", "할 일 삭제", "할 일 완료", "오늘 달성률"};
 
     PrintTodoList printer = new PrintTodoList();
 
@@ -37,7 +37,7 @@ public class TodayTodoCommand {
     public void executeToday() {
         todayList = todoList.setTodayTodoList();
 
-        if(todayList.isEmpty()){
+        if (todayList.isEmpty()) {
             System.out.println("오늘 할 일이 없습니다.");
             return;
         }
@@ -58,7 +58,7 @@ public class TodayTodoCommand {
                 printTodayTodoMenus();
             } else if (input.equals("1")) {
                 todayList = todoList.setTodayTodoList();
-                if(todayList.isEmpty()){
+                if (todayList.isEmpty()) {
                     System.out.println("오늘 할 일이 없습니다.");
                     return;
                 }
@@ -66,9 +66,9 @@ public class TodayTodoCommand {
             }
             try {
                 number = Integer.parseInt(input);
-                if(isAvailable(number)){
-                 System.out.println("없는 메뉴입니다. 재입력해주세요.");
-                 break;
+                if (isAvailable(number)) {
+                    System.out.println("없는 메뉴입니다. 재입력해주세요.");
+                    break;
                 }
                 String menuTitle = menuNo(number);
                 switch (menuTitle) {
@@ -80,6 +80,9 @@ public class TodayTodoCommand {
                         break;
                     case "할 일 완료":
                         todayComplete();
+                        break;
+                    case "오늘 달성률":
+                        todayRate();
                         break;
                     default:
                 }
@@ -113,9 +116,9 @@ public class TodayTodoCommand {
                 updateTodo.setTitle(Prompt.input("수정할 할 일 내용 입력 >"));
                 LocalDate startDate = Prompt.inputDate("수정할 시작일을 입력하세요(yyyymmdd) >");
                 updateTodo.setStartDate(startDate);
-                while (true){
+                while (true) {
                     LocalDate endDate = Prompt.inputDate("수정할 종료일을 입력하세요(yyyymmdd) >");
-                    if(endDate.isAfter(startDate) || endDate.equals(startDate)){
+                    if (endDate.isAfter(startDate) || endDate.equals(startDate)) {
                         updateTodo.setEndDate(endDate);
                         break;
                     }
@@ -187,6 +190,28 @@ public class TodayTodoCommand {
             } catch (NumberFormatException e) {
                 System.out.println("번호로 입력해주세요.");
             }
+        }
+    }
+
+    private void todayRate() {
+        int completeTodo = 0;
+        for (Todo todo : todayList) {
+            if (todo.isComplete()) {
+                completeTodo++;
+            }
+        }
+        double result = (double) completeTodo / todayList.size() * 100;
+        System.out.printf("오늘 할 일 : %d | 완료한 일 : %d | 통계 : %s\n", todayList.size(), completeTodo, result);
+        if(result == 100){
+            System.out.println("오늘 할 일을 모두 마쳤습니다.");
+        }else if(result < 100 && result >= 70){
+            System.out.println("오늘 할 일을 거의 완료했습니다.");
+        }else if(result < 70 && result >= 50){
+            System.out.println("오늘 할 일을 절반 정도 완료했습니다.");
+        }else if(result < 50 && result >= 30){
+            System.out.println("할 일이 반이상 남았습니다.");
+        }else if(result == 0){
+            System.out.println("시작이 반이예요. 어서 할 일을 시작하세요");
         }
     }
 

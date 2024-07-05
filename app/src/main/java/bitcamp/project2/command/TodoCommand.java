@@ -122,5 +122,23 @@ public class TodoCommand {
             }
         }
     }
+
+    public void completeTask() {
+        while (true) {
+            String update = Prompt.input("완료한 할 일 번호 >");
+
+            try {
+                int update2 = Integer.parseInt(update);
+                Todo updateTodo = todoList.nullTodo(update2, todos);
+                if (updateTodo == null) {
+                    System.out.println("없는 할 일입니다.");
+                    break;
+                }
+                updateTodo.setComplete(true);
+            }catch (NumberFormatException e){
+                System.out.println("숫자로 입력해주세요.");
+            }
+        }
+    }
 }
 

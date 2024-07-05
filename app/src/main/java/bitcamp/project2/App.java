@@ -14,7 +14,7 @@ public class App {
     TodoCommand todoCommand = new TodoCommand(todoList);
     TodayTodoCommand todayTodoCommand = new TodayTodoCommand(todoList);
 
-    String[] menus = {"오늘의 Todo", "Todo 추가", "모든 Todo 목록", "Todo 수정", "Todo 삭제", "종료"};
+    String[] menus = {"오늘의 Todo", "Todo 추가", "Todo 완료", "모든 Todo 목록", "Todo 수정", "Todo 삭제", "종료"};
 
     public void printMenu() {
         System.out.println("==========[TodoList]==========");
@@ -59,6 +59,8 @@ public class App {
                     case "종료":
                         System.out.println("종료");
                         return;
+                    case "완료":
+                        todoCommand.completeTask();
                     default:
                         System.out.println("잘못된 선택입니다. 다시 시도해주세요.");
                 }

@@ -3,6 +3,7 @@ package bitcamp.project2.util;
 import bitcamp.project2.vo.Todo;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class PrintTodoList {
@@ -54,7 +55,9 @@ public class PrintTodoList {
     }
 
     public void printTodoList(int process, ArrayList<Todo> todoList) {
+        String ansiRed = "\u001B[31m";
         String ansiGreen = "\u001B[32m";
+        String ansiGray = "\u001B[90m";
         String ansiEnd = "\u001B[0m";
 
         printHeader(process);
@@ -69,11 +72,15 @@ public class PrintTodoList {
             if(isDate(process)){
                 LocalDate startDate = todo.getStartDate();
                 LocalDate endDate = todo.getEndDate();
+                boolean complete = todo.isComplete();
+
+                long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(), endDate);
+                boolean colorSet = daysBetween <= 3 && !complete;
 
                 if(startDate.equals(endDate)){
-                    System.out.printf("       %s        |", startDate);
+                    System.out.printf("       %s%s%s        |", colorSet ? ansiRed : "",startDate, ansiEnd);
                 }else {
-                    System.out.printf(" %s ~ %s |", startDate, endDate);
+                    System.out.printf(" %s%s ~ %s%s%s%s |", colorSet ? ansiGray : "", startDate, ansiEnd, colorSet ? ansiRed : "", endDate, ansiEnd);
                 }
             }
 
