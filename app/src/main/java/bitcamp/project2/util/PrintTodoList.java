@@ -80,7 +80,7 @@ public class PrintTodoList {
                 if(startDate.equals(endDate)){
                     System.out.printf("       %s%s%s        |", colorSet ? ansiRed : "",startDate, ansiEnd);
                 }else {
-                    System.out.printf(" %s%s ~ %s%s%s%s |", colorSet ? ansiGray : "", startDate, ansiEnd, colorSet ? ansiRed : "", endDate, ansiEnd);
+                    System.out.printf(" %s%s ~ %s%s |", colorSet ? ansiRed : "", startDate, endDate, ansiEnd);
                 }
             }
 

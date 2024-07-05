@@ -73,13 +73,13 @@ public class TodayTodoCommand {
                 String menuTitle = menuNo(number);
                 switch (menuTitle) {
                     case "오늘 할 일 완료":
-                        todayListUpdate();
+                        todayComplete();
                         break;
                     case "오늘 할 일 수정":
-                        todayListDelete();
+                        todayListUpdate();
                         break;
                     case "오늘 할 일 삭제":
-                        todayComplete();
+                        todayListDelete();
                         break;
                     case "오늘 달성률":
                         todayRate();
@@ -202,7 +202,7 @@ public class TodayTodoCommand {
             }
         }
         double result = (double) completeTodo / todayList.size() * 100;
-        System.out.printf("오늘 할 일 : %d | 완료한 일 : %d | 통계 : %s\n", todayList.size(), completeTodo, result);
+        System.out.printf("오늘 할 일 : %d | 완료한 일 : %d | 통계 : %.1f\n", todayList.size(), completeTodo, result);
         if(result == 100){
             System.out.println("오늘 할 일을 모두 마쳤습니다.");
         }else if(result < 100 && result >= 70){

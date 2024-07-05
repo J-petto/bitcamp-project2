@@ -151,7 +151,7 @@ public class TodoCommand {
             }
         }
         double result = (double) complete / todos.size() * 100;
-        System.out.printf("할 일 : %s | 완료한 할 일 %s | 통계 : %s\n", todos.size(), complete, result);
+        System.out.printf("할 일 : %s | 완료한 할 일 %s | 통계 : %.1f\n", todos.size(), complete, result);
     }
 }
 
