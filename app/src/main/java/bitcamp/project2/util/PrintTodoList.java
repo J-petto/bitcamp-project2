@@ -75,12 +75,14 @@ public class PrintTodoList {
                 boolean complete = todo.isComplete();
 
                 long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(), endDate);
-                boolean colorSet = daysBetween <= 3 && !complete && (LocalDate.now().isBefore(endDate) || LocalDate.now().isEqual(endDate));
+                boolean isLast = daysBetween <= 3 && !complete && (LocalDate.now().isBefore(endDate) || LocalDate.now().isEqual(endDate));
+                boolean isComplete = LocalDate.now().isAfter(endDate);
+                String colorSet = isLast ? ansiRed : isComplete ? ansiGray : "";
 
                 if(startDate.equals(endDate)){
-                    System.out.printf("       %s%s%s        |", colorSet ? ansiRed : "",startDate, ansiEnd);
+                    System.out.printf("       %s%s%s        |", colorSet, startDate, ansiEnd);
                 }else {
-                    System.out.printf(" %s%s ~ %s%s |", colorSet ? ansiRed : "", startDate, endDate, ansiEnd);
+                    System.out.printf(" %s%s ~ %s%s |", colorSet, startDate, endDate, ansiEnd);
                 }
             }
 
