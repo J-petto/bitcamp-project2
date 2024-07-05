@@ -14,7 +14,7 @@ public class App {
     TodoCommand todoCommand = new TodoCommand(todoList);
     TodayTodoCommand todayTodoCommand = new TodayTodoCommand(todoList);
 
-    String[] menus = {"오늘의 Todo", "Todo 추가", "Todo 완료", "모든 Todo 목록", "Todo 수정", "Todo 삭제", "종료"};
+    String[] menus = {"오늘의 할 일", "할 일 추가", "할 일 완료", "할 일 목록", "할 일 수정", "할 일 삭제", "전체 통계", "종료"};
 
     public void printMenu() {
         System.out.println("==========[TodoList]==========");
@@ -41,33 +41,31 @@ public class App {
                 }
                 String menuTitle = menus[menuNo - 1];
                 switch (menuTitle) {
-                    case "Todo 추가":
+                    case "오늘의 할 일" :
+                        todayTodoCommand.executeToday();
+                    case "할 일 추가":
                         todoCommand.toDo();
                         break;
-                    case "모든 Todo 목록":
+                    case "할 일 완료":
+                        todoCommand.completeTask();
+                        break;
+                    case "할 일 목록":
                         todoCommand.viewTasks(); // 조회에서는 번호 없이 출력
                         break;
-                    case "오늘의 Todo":
-                        todayTodoCommand.executeToday();
-                        break;
-                    case "Todo 수정":
+                    case "할 일 수정":
                         todoCommand.updateTask();
                         break;
-                    case "Todo 삭제":
+                    case "할 일 삭제":
                         todoCommand.deleteTask();
                         break;
+                    case "전체 통계" : todoCommand.rateTask(); break;
                     case "종료":
                         System.out.println("종료");
                         return;
-                    case "완료":
-                        todoCommand.completeTask();
-                    default:
-                        System.out.println("잘못된 선택입니다. 다시 시도해주세요.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("올바른 숫자를 입력해주세요.");
             }
-
         }
     }
 

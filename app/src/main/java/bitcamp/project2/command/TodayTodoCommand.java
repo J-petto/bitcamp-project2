@@ -19,7 +19,7 @@ public class TodayTodoCommand {
         todos = todoList.getTodoList();
     }
 
-    private final String[] menus = {"오늘 할 일 보기", "할 일 수정", "할 일 삭제", "할 일 완료", "오늘 달성률"};
+    private final String[] menus = {"오늘 할 일 보기", "오늘 할 일 완료", "오늘 할 일 수정", "오늘 할 일 삭제", "오늘 달성률"};
 
     PrintTodoList printer = new PrintTodoList();
 
@@ -72,13 +72,13 @@ public class TodayTodoCommand {
                 }
                 String menuTitle = menuNo(number);
                 switch (menuTitle) {
-                    case "할 일 수정":
+                    case "오늘 할 일 완료":
                         todayListUpdate();
                         break;
-                    case "할 일 삭제":
+                    case "오늘 할 일 수정":
                         todayListDelete();
                         break;
-                    case "할 일 완료":
+                    case "오늘 할 일 삭제":
                         todayComplete();
                         break;
                     case "오늘 달성률":

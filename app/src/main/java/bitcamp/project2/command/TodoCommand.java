@@ -124,9 +124,9 @@ public class TodoCommand {
     }
 
     public void completeTask() {
+        printer.printTodoList(PROCESS.MAIN_UPDATE, todos);
         while (true) {
             String update = Prompt.input("완료한 할 일 번호 >");
-
             try {
                 int update2 = Integer.parseInt(update);
                 Todo updateTodo = todoList.nullTodo(update2, todos);
@@ -135,10 +135,23 @@ public class TodoCommand {
                     break;
                 }
                 updateTodo.setComplete(true);
+                System.out.println("변경 완료했습니다.");
+                break;
             }catch (NumberFormatException e){
                 System.out.println("숫자로 입력해주세요.");
             }
         }
+    }
+
+    public void rateTask() {
+        int complete = 0;
+        for(Todo todo : todos){
+            if(todo.isComplete()){
+                complete++;
+            }
+        }
+        double result = (double) complete / todos.size() * 100;
+        System.out.printf("할 일 : %s | 완료한 할 일 %s | 통계 : %s\n", todos.size(), complete, result);
     }
 }
 
