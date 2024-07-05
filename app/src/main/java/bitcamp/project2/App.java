@@ -29,7 +29,7 @@ public class App {
         printMenu();
         while (true) {
             String choice = Prompt.input("메뉴 >");
-            if(choice.equals("menu")){
+            if (choice.equals("menu")) {
                 printMenu();
                 continue;
             }
@@ -41,7 +41,7 @@ public class App {
                 }
                 String menuTitle = menus[menuNo - 1];
                 switch (menuTitle) {
-                    case "오늘의 할 일" :
+                    case "오늘의 할 일":
                         todayTodoCommand.executeToday();
                     case "할 일 추가":
                         todoCommand.toDo();
@@ -58,7 +58,9 @@ public class App {
                     case "할 일 삭제":
                         todoCommand.deleteTask();
                         break;
-                    case "전체 통계" : todoCommand.rateTask(); break;
+                    case "전체 통계":
+                        todoCommand.rateTask();
+                        break;
                     case "종료":
                         System.out.println("종료");
                         return;

@@ -180,12 +180,13 @@ public class TodayTodoCommand {
                     System.out.println("없는 번호입니다.");
                     break;
                 }
-                Todo updateTodo = todoList.nullTodo(number, todayList);
-                if (updateTodo == null) {
+                Todo completeTodo = todoList.nullTodo(number, todayList);
+                if (completeTodo == null) {
                     System.out.println("없는 할 일입니다.");
                     break;
                 }
-                isComplete(updateTodo);
+                completeTodo.setComplete(true);
+                System.out.println("변경했습니다.");
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("번호로 입력해주세요.");

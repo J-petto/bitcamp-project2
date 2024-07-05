@@ -135,7 +135,7 @@ public class TodoCommand {
                     break;
                 }
                 updateTodo.setComplete(true);
-                System.out.println("변경 완료했습니다.");
+                System.out.println("변경 했습니다.");
                 break;
             }catch (NumberFormatException e){
                 System.out.println("숫자로 입력해주세요.");
